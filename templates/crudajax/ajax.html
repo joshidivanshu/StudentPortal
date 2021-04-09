@@ -1,0 +1,158 @@
+<script>
+//Data Insertion
+$("#btnsave").click(function(){
+    //console.log("btton clicked");
+    output = "";
+    let en = $("#enoid").val();
+    let nm = $("#nameid").val();
+    let em = $("#emailid").val();
+    let sub = $("#subjectid").val();
+    let ex = $("#experienceid").val();
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    if(en == "")
+    {
+        console.log("Please enter employee number");
+    }
+    else if(nm == ""){
+        console.log("Please enter a Name");
+    }
+    else if(em == "")
+    {
+        console.log("Please enter email");
+    }
+    else if(sub == "")
+    {
+        console.log("Please enter subject");
+    }
+    else if(ex == "")
+    {
+        console.log("Please enter years of experience");
+    }
+    else
+    {
+        mydata ={eno:en,name:nm,email:em,subject:sub,experience:ex,csrfmiddlewaretoken:csr};
+        $.ajax({
+            url: "{% url 'saveteacher' %}",
+            method: "POST",
+            data: mydata,
+            success:function(data){
+                x = data.teacher_data;
+                if(data.status == "Saved Successfully"){
+                    console.log("Form Submitted Successfully");
+                    for(i=0;i<x.length;i++){
+                        output += "<tr><td>"+x[i].eno+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].subject+"</td><td>"+x[i].experience+"</td><td><input type = 'button' class = 'btn btn-warning btn-edit btn-sm' value = 'Update' data-sid="+x[i].eno+"><input type = 'button' class = 'btn btn-danger btn-del btn-sm' value = 'Delete' data-sid="+x[i].eno+"></tr>"
+                    }
+                    console.log(data)
+                    $("#t_body").html(output);
+                    //to clear the form data.
+                    $("form")[0].reset();
+                }
+                if(data.status == 0)
+                {
+                    console.log("Unable to save Information");
+                }
+            },
+        });
+    }
+});
+//delete function
+$("tbody").on("click",".btn-del",function(){
+   console.log("Delete button clicked");
+   let id = $(this).attr("data-sid");
+   let csr = $("input[name=csrfmiddlewaretoken").val();
+   console.log(id);
+   mydata = {eno:id,csrfmiddlewaretoken:csr};
+   mythis = this;
+   $.ajax({
+      url:"{% url 'teacherdel' %}",
+      method:"POST",
+      data:mydata,
+      success:function(data){
+            //console.log(data);
+            if(data.status == 1){
+                console.log("Data Deleted successfully");
+                $(mythis).closest("tr").fadeOut();
+            }
+            if(data.status == 0){
+                console.log("Unable to Delete Data");
+            }
+      } ,
+   });
+});
+//Update Data
+$("tbody").on("click",".btn-edit",function(){
+   console.log("Edit button clicked");
+   let id = $(this).attr("data-sid");
+   let csr = $("input[name=csrfmiddlewaretoken").val();
+   //console.log(id);
+   mydata = {eno:id,csrfmiddlewaretoken:csr};
+   $.ajax({
+      url:"{% url 'teacheredit' %}",
+      method:"POST",
+      data:mydata,
+      success:function(data){
+            //console.log(data);
+          $("#enoid").val(data.eno);
+          $("#nameid").val(data.name);
+          $("#emailid").val(data.email);
+          $("#subjectid").val(data.subject);
+          $("#experienceid").val(data.experience);
+      } ,
+   });
+});
+$("#btnupdate").click(function(){
+    //console.log("btton clicked");
+    output = "";
+    let en = $("#enoid").val();
+    let nm = $("#nameid").val();
+    let em = $("#emailid").val();
+    let sub = $("#subjectid").val();
+    let ex = $("#experienceid").val();
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    if(en == "")
+    {
+        console.log("Please enter employee number");
+    }
+    else if(nm == ""){
+        console.log("Please enter a Name");
+    }
+    else if(em == "")
+    {
+        console.log("Please enter email");
+    }
+    else if(sub == "")
+    {
+        console.log("Please enter subject");
+    }
+    else if(ex == "")
+    {
+        console.log("Please enter years of experience");
+    }
+    else
+    {
+        mydata ={eno:en,name:nm,email:em,subject:sub,experience:ex,csrfmiddlewaretoken:csr};
+        $.ajax({
+            url: "{% url 'teacherupdate' %}",
+            method: "POST",
+            data: mydata,
+            success:function(data){
+                x = data.teacher_data;
+                if(data.status == "Saved Successfully"){
+                    console.log("Form Submitted Successfully");
+                    for(i=0;i<x.length;i++){
+                        output += "<tr><td>"+x[i].eno+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].subject+"</td><td>"+x[i].experience+"</td><td><input type = 'button' class = 'btn btn-warning btn-edit btn-sm' value = 'Update' data-sid="+x[i].eno+"><input type = 'button' class = 'btn btn-danger btn-del btn-sm' value = 'Delete' data-sid="+x[i].eno+">"
+                    }
+                    $("#t_body").html(output);
+                    //to clear the form data.
+                    $("form")[0].reset();
+                }
+                if(data.status == 0)
+                {
+                    console.log("Unable to save Information");
+                }
+            },
+        });
+    }
+});
+
+</script>

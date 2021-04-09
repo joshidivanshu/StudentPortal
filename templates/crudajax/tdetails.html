@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load  static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Details</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<style>
+    .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+body, html {
+  height: 100%;
+}
+body{
+    background-color: #edecd6;
+}
+
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">St. Xavier's College</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-ato">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'homepage' %}">Home <span class="sr-only"></span></a>
+      </li>
+        {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'insert' %}">Add Students Details</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link" href="{% url 'tinsert' %}">Add Teacher Details</a>
+      </li>
+        {% endif %}
+      <li class="nav-item" >
+        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+      </li>
+      <li class="nav-item" style="float:right">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item" >
+        <a class="nav-link" >{{user.get_username}}</a>
+      </li>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Log-Out</a>
+      </li>
+        {% endif %}
+    </ul>
+  </div>
+
+</nav>
+<div class="container mt-5">
+    <h2 class="text-center alert alert-info"> Add Teacher Details using this form</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <h4 class="text-center alert alert-info">Add / Update Teacher Details</h4>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input
+                        type="button"
+                        class="btn btn-success"
+                        value="Save"
+                        id = "btnsave"
+                >
+                <input
+                        type="button"
+                        class="btn btn-success"
+                        value="Update"
+                        id = "btnupdate"
+                >
+            </form>
+        </div>
+        <div class="col-sm-8">
+            <h4 class="text-center alert alert-info">Teacher Information</h4>
+            <table class="table table-bordered table-success table-hover table">
+                <thead>
+                    <tr>
+                        <th scope="col">EmplyoeeNo.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Experience</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="t_body">
+                {% for t in teach %}
+                    <tr>
+                    <td>{{ t.eno }}</td>
+                    <td>{{ t.name }}</td>
+                    <td>{{ t.email }}</td>
+                    <td>{{ t.subject }}</td>
+                    <td>{{ t.experience }}</td>
+                    <td><input
+                            type = "button"
+                            data-sid = "{{ t.eno }}",
+                            class = "btn btn-warning btn-edit btn-sm"
+                            value = "Update">
+                        <input
+                            type = "button"
+                            data-sid = "{{ t.eno }}",
+                            class = "btn btn-danger btn-del btn-sm"
+                            value = "Delete">
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    {% include 'crudajax/ajax.html' %}
+<div class="footer">
+     © 2020 Copyright
+</div>
+</footer>
+</body>
+</html>

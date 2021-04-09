@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{%extends 'star/home.html'%}
+{%block child_block%}
+    <style>
+     body{
+              background-color: #edecd6;
+          }
+    </style>
+    <div class="container" style="max-width: 500px; padding-top:100px; padding-bottom: 100px">
+    <h2 align="center">Sign up</h2>
+        <hr>
+        <br>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign up</button>
+  </form>
+    </div>
+{%endblock%}

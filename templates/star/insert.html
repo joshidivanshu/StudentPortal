@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{%extends 'star/home.html'%}
+{%block  child_block%}
+<style>
+     body{
+              background-color: #edecd6;
+          }
+    </style>
+    <hr>
+<h1 align="center">Welcome to the Student Registration Form</h1>
+    <hr>
+    <br>
+<div class="container">
+<div class="row">
+ <div class="col" style="background-color: #ddffdd">
+     <h5>Add data using this Form</h5>
+     <hr>
+<form method="post">
+    {% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Insert" class="btn btn-primary btn-lg">
+</form>
+ </div>
+    <div class="col" style="background-color: #ddffdd">
+<form method="post" action="{% url 'data_upload' %}"enctype="multipart/form-data">
+    {% csrf_token %}
+    <h5>Add data using CSV File </h5>
+    <hr>
+    <lable>Upload a file</lable>
+    <input type="file" name="csvfile">
+    <p> Only accepts CSV files</p>
+    <input type="submit" value="Upload" class="btn btn-lg btn-success">
+    </form>
+<br>
+        <form method="post" action="{% url 'text_upload' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h5>Add data using Text File.</h5>
+            <hr>
+            <lable>Upload a file</lable>
+            <input type="file" name="txtfile">
+            <p> Only accepts text files</p>
+            <input type="submit" value="Upload" class="btn btn-lg btn-success">
+        </form>
+    </div>
+        <div class="col" style="background-color: #ddffdd">
+            <h5> To Obtain the details</h5>
+            <hr>
+<a href="/show" class="btn btn-success btn-lg">Show Details</a>
+        </div>
+
+</div>
+</div>
+{%endblock%}

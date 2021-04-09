@@ -1,0 +1,36 @@
+
+<script>
+ 
+function deleteUser(id){
+    let eno = id;
+    // let csr = $("input[name=csrfmiddlewaretoken").val();
+    // mydata = {eno:id,csrfmiddlewaretoken:csr};
+    $("#confirmDelete").modal("show");
+    $("#deleteBut").click(function(){
+      console.log("functioning");
+      $.ajax({
+      url:"{% url 'studel' %}",
+      method:"POST",
+      data:{eno:eno},
+      success:function(data){
+            //console.log(data);
+            if(data.status == 1){
+                console.log("Data Deleted successfully");
+            }
+            if(data.status == 0){
+                console.log("Unable to Delete Data");
+            }
+      } ,
+   });
+    });
+  }
+ 
+
+        
+
+        
+
+
+  
+
+</script>

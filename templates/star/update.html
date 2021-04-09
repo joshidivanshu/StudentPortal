@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends 'star/home.html' %}
+{% block child_block %}
+  <style>
+  body{
+      background-color: #edecd6;
+  }
+  </style>
+<div class="contaner" align="center" style="padding-bottom:200px;padding-top:200px;padding-left: 200px;padding-right: 200px ">
+<form method="post">
+    {%csrf_token%}
+    <div class="form-group">
+        <h1>Update the Details</h1>
+    Eno:<input type="text" name="eno" value={{students.eno}}><br>
+    First Name:<input type="text" name="fname" value={{students.fname}}><br>
+    Last Name:<input type="text" name="lname" value={{students.lname}}><br>
+    Email:<input type="email" name="email" value={{students.email}}><br>
+    Address:<input type="text" name="address" value={{students.address}}><br>
+    Phone:<input type="text" name="phone" value={{students.phone}}><br>
+    </div>
+    <input type="submit" value="Update" name="">
+</form>
+</div>
+{%endblock%}
