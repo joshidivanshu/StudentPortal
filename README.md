@@ -15,6 +15,7 @@ Go to the project dir and run the below line in the terminal.
 ```
 python manage.py runserver
 
+```
 
 ## Project SnapShots
 
